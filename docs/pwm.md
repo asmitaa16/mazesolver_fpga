@@ -25,7 +25,7 @@ end
 The PWM generator module builds on the frequency divider. We now keep another counter to keep a track of our duty cycle. Here you may choose a resolution as per choice but keep in mind a higher resolution means a larger register is required to store the values of your counter. 
 That's it. Clean and simple
 
-``verilog
+```verilog
 //Generating PWM signal with duty cycle as input
 reg [3:0]counter1 = 0;
 always @(posedge clk_3125KHz) begin
@@ -41,6 +41,7 @@ always @(posedge clk_3125KHz) begin
 	end
 
 ```
+
 ![PWM Generator Module](assets/images/simple_pwm.png)
 
 The figure below shows the generation of a PWM signal of 195KHz frequency using a frequency divider module:
