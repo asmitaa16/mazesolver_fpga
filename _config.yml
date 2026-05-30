@@ -1,0 +1,18 @@
+title: FPGA Maze Solver
+description: Building a wall-following maze solver on an FPGA — PWM, sensors, FSM, and everything in between.
+theme: jekyll-theme-minimal
+
+markdown: kramdown
+highlighter: rouge
+
+nav:
+  - title: Home
+    url: /docs/
+  - title: PWM Generation
+    url: /docs/pwm
+  - title: Sensors
+    url: /docs/sensors
+  - title: FSM
+    url: /docs/fsm
+  - title: Results
+    url: /docs/results
