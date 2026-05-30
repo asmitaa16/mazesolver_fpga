@@ -1,4 +1,4 @@
-# Simple PWM Generator from on-board Clock
+# Simple PWM Wave Generator from on-board Clock
 
 Let's begin with, what are they? In simple terms, Pulse Width Modulation is a digital modulation technique in which the "on-time" of a square wave of a particular frequency is varied to carry on our information. The ratio of the "on-time" to its total time period is known as its Duty Cycle.
 
@@ -21,18 +21,18 @@ end
 
 ```
 
-### PWM Generation:
-The PWM generator module builds on the frequency divider. We now keep another counter to keep a track of our duty cycle. Here you may choose a resolution as per choice but keep in mind a higher resolution means a larger register is required to store the values of your counter. 
+### PWM Pulse Generation:
+The PWM generator module builds on the frequency divider. We now keep a counter to keep a track of our duty cycle and toggle the output accordingly. Here you may choose a duty cycle resolution (i.e. dividing the time period into 2^n parts, for e.g. Arduino UNO uses an 8-bit resoltion) as per choice but keep in mind a higher resolution means a larger register is required to store the values of your counter. 
 That's it. Clean and simple
 
 ```verilog
 //Generating PWM signal with duty cycle as input
-reg [3:0]counter1 = 0;
+reg [3:0]counter = 0;
 always @(posedge clk_3125KHz) begin
 	
-	counter1 <= counter1 + 1'b1;
+	counter <= counter + 1'b1;
 	
-		if (counter1 < duty_cycle) begin
+		if (counter < duty_cycle) begin
 			pwm_signal <= 1;
 		end
 		else begin
@@ -41,9 +41,9 @@ always @(posedge clk_3125KHz) begin
 	end
 
 ```
-
+The diagram below shows a synthesized module of frequency 3125KHz and takes the duty cycle as an input from user or any other module.  
 ![PWM Generator Module](assets/images/simple_pwm.png)
 
-The figure below shows the generation of a PWM signal of 195KHz frequency using a frequency divider module:
+This one shows the generation of a PWM signal of 195KHz frequency using a frequency divider module:
 
 ![PWM Generator Module](assets/images/pwm_gen.png)
