@@ -25,6 +25,7 @@ always @( posedge clk) begin
 ```
 
 ### Reading encoders:
+
 Things get a bit tougher here. Let's first understand what and why. 
 An encoder sends the controller a certain number of pulses during the time we are meausring. We rotate the wheel by hand first and count the number of pulses generated for a single rotation and then we can easily calculate the rotation speed from the number of pulses we received and the time period of observation.
 
@@ -36,8 +37,7 @@ OK. Lot's of jargon. How do we tackle it then? That's much simpler- just hold on
 
 The next challenge is to actually implement an interrupt. How do we confirm a change has occured in the encoder reading and change our counter variable based on that? We need to use a 2nd flip-flop for that. The first flip-flop directly stores the data from the encoder while the 2nd one holds on to the previous value read from the encoder. In this way we can detect a change in readings and be sure that a pulse had indeed been generated. 
 
-The example below does it by detecting falling edges in the encoder pulse. Play around with it and try writing conditions resembling the RISING & CHANGE parameters of the Arduino attachInterrupt() function!
-
+The example below does it by detecting falling edges in the encoder pulse. Play around with it and try writing conditions for detecting rising edges or keeping track of both rising or falling edges (think about Arduino attachInterrupt function)
 
 ```verilog
 
@@ -59,3 +59,15 @@ The diagram shows a typical synchronisation circuitry.
 
 A synthesised module reading data from both wheel encoders and gives the encoder ticks as output for use by other modules.
 ![PWM Generator Module](assets/images/encoder.png)
+
+
+### Ultrasonic Sensors:
+
+The first step here is to have a look at the datasheet, specially at the timing diagram and see exactly how it is supposed to work. 
+
+![Ultrasonic Module](assets/images/ultra.png)
+
+*Image credit: https://cdn.sparkfun.com/datasheets/Sensors/Proximity/HCSR04.pdf*
+
+What we see is that it requires a short 10-uS trigger pulse to start the ranging. Then the module sends an 8-cycle burst of ultrasonic pulses at 40KHz and keeps waiting for the echo to arrive. We are going to achieve this operation by implementing what is called a Finite State Machine. 
+It consists of multiple states that perform discrete actions one after another in an orderly manner. Each state has its own function and a logical conditioning for transitioning to a next-state. 
