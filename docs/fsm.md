@@ -23,5 +23,30 @@ Take a look at the following flowchart that provides a map of all the input and 
 
 ![PWM Generator Module](assets/images/flow1.png)
 
+Our main output signals would be connected to a motor driver module that controls the speed and direction of our wheels as directed by the controller. We used the simple and diy-bestie L298n motor driver for running our wheels. Here's a simple logic-flow to run your motors with PWM signals:
+
+```verilog
+if (counter == 400)  //we use a pwm frequency of 125 KHz 
+    begin
+    counter_pwm <= counter_pwm+1;
+    if (counter_pwm == 255)begin
+        counter_pwm <= 0;
+    end
+
+    counter <= 0;
+    //set values of ena and enb accordingly to control speed
+    //we kept the resolution 8-bit for familiarity to Arduino's analogWrite() function
+    if(counter_pwm <= ena_pwm)begin
+        ena <= 1;
+    end else begin
+        ena <= 0;
+    end
+    if(counter_pwm <= enb_pwm)begin
+        enb <= 1;
+    end else begin
+        enb <= 0;
+    end
+end
+```
 
 
