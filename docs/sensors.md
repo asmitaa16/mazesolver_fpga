@@ -123,7 +123,7 @@ $$
 t = \frac{N}{50 \times 10^6}
 $$
 
-where, N = number of clock cycles for which ECHO remains HIGH
+where, N = number of clock cycles for which echo pin remains HIGH
 
 Substituting this into the distance equation:
 
@@ -131,16 +131,10 @@ $$
 d = \frac{343 \cdot N}{2 \cdot 50 \times 10^6}
 $$
 
-Approximating in centimeters:
-
-$$
-d_{cm} \approx \frac{N}{2915}
-$$
-
 For simpler hardware implementation, this is often approximated as:
 
 $$
-\mathrm{distance}_{cm} = \frac{\mathtt{echo\_count}}{2900}
+d_{cm} \approx \frac{N}{2900}
 $$
 
 The FSM state transitions are as follows:
