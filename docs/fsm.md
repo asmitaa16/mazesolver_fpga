@@ -78,7 +78,7 @@ end
 ```
 
 
-If you've read this far, THANK YOU! Our target was not to provide a ready-made Quartus Project File, but the idea behind building one from scratch, bit by bit. Hope you have gained more confidence in starting out with the real hardware now that you have read through the possible challenges.
+If you've read this far, THANK YOU! Our target was not to provide a ready-made Quartus Project File, but the idea behind building one from scratch, bit by bit. Hope you have gained more confidence in starting out with the real hardware now that you have read through the possible challenges. We have also attached further readings and references that you may take a look at.
 
 We truly wish you all the best for trying out your own Maze-solver robot using a FPGA.
 
