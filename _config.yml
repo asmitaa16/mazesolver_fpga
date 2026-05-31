@@ -18,7 +18,7 @@
 #     url: /docs/results
 
 
-title: Mazesolver bot implementation in FPGA
+title: Mazesolver bot in FPGA
 description: Building a wall-following maze solver on an FPGA — PWM, sensors, FSM, and everything in between.
 remote_theme: just-the-docs/just-the-docs
 
@@ -27,6 +27,10 @@ plugins:
 
 # Theme settings
 color_scheme: dark   # or remove this line for light mode
+custom_css: assets/css/custom.css
 
 url: https://asmitaa16.github.io
 baseurl: /mazesolver_fpga
+
+footer_content: "Maintained by <a href='https://github.com/asmitaa16'>asmitaa16</a>"
+
