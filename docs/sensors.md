@@ -1,3 +1,9 @@
+---
+layout: default
+title: Sensors
+nav_order: 2
+---
+
 # Working with various sensors:
 
 The bot needs to detect walls and also maintain a safe distance from them. Furthermore for implementing a closed-loop-control-system, we need to know exactly how much our wheels have actually moved compared to what we commanded. 
@@ -52,6 +58,8 @@ always @(posedge clk_50)begin
 ```
 
 The diagram shows a typical synchronisation circuitry.
+
+
 ![PWM Generator Module](assets/images/sync.png)
 
 *Image credit: https://daffy1108.wordpress.com/2014/06/08/synchronizers-for-asynchronous-signals/*

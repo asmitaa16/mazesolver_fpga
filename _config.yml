@@ -1,18 +1,32 @@
-title: FPGA Maze Solver
+# title: FPGA Maze Solver
+# description: Building a wall-following maze solver on an FPGA — PWM, sensors, FSM, and everything in between.
+# theme: jekyll-theme-cayman
+
+# markdown: kramdown
+# highlighter: rouge
+
+# nav:
+#   - title: Home
+#     url: /docs/
+#   - title: PWM Generation
+#     url: /docs/pwm
+#   - title: Sensors
+#     url: /docs/sensors
+#   - title: FSM
+#     url: /docs/fsm
+#   - title: Results
+#     url: /docs/results
+
+
+title: Mazesolver bot implementation in FPGA
 description: Building a wall-following maze solver on an FPGA — PWM, sensors, FSM, and everything in between.
-theme: jekyll-theme-cayman
+remote_theme: just-the-docs/just-the-docs
 
-markdown: kramdown
-highlighter: rouge
+plugins:
+  - jekyll-remote-theme
 
-nav:
-  - title: Home
-    url: /docs/
-  - title: PWM Generation
-    url: /docs/pwm
-  - title: Sensors
-    url: /docs/sensors
-  - title: FSM
-    url: /docs/fsm
-  - title: Results
-    url: /docs/results
+# Theme settings
+color_scheme: dark   # or remove this line for light mode
+
+url: https://asmitaa16.github.io
+baseurl: /mazesolver_fpga

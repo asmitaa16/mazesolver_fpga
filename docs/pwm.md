@@ -1,3 +1,10 @@
+---
+layout: default
+title: PWM Generation
+nav_order: 1
+---
+
+
 # Simple PWM Wave Generator from on-board Clock
 
 Let's begin with, what are they? In simple terms, Pulse Width Modulation is a digital modulation technique in which the "on-time" of a square wave of a particular frequency is varied to carry on our information. The ratio of the "on-time" to its total time period is known as its Duty Cycle.
