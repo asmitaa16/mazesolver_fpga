@@ -88,16 +88,57 @@ reg[2:0]  state, state_next;
 
 ```
 A conversion guide for getting the distances would be as per the following formulae:
-Considering, speed of sound = 343 m/s or 34300 cm/s
-Then, d_{cm} = \frac{34300*t}{58}
-It'd be easier to keep track of time in milli-seconds since we are dealing with clocks of frequencies of high orders.
-So, we have- d_{cm} = \frac{t_{\mu s}}{58}
+$$
+d = \frac{v \cdot t}{2}
+$$
 
-Now for calculating the time, again initialise a counter that counts up till till the echo pulse is HIGH.
-We then have, t = \frac{\text{echo\_count}}{50 \times 10^6}
+where:
+
+- \( d \) = distance
+- \( v \) = speed of sound
+- \( t \) = time for which the echo pulse remains HIGH
+
+Considering the speed of sound:
+
+$$
+v = 343 \text{ m/s} = 34300 \text{ cm/s}
+$$
+
+Thus,
+
+$$
+d_{cm} = \frac{34300 \cdot t}{2}
+$$
+
+For practical implementation, time is usually measured in microseconds:
+
+$$
+d_{cm} = \frac{t_{\mu s}}{58}
+$$
+
+For FPGA implementation using a 50 MHz clock:
+
+$$
+t = \frac{\text{echo\_count}}{50 \times 10^6}
+$$
+
+Substituting this into the distance equation:
+
+$$
 d = \frac{343 \cdot \text{echo\_count}}{2 \cdot 50 \times 10^6}
-or, d_{cm} \approx \frac{\text{echo\_count}}{2915}
+$$
 
+Approximating in centimeters:
+
+$$
+d_{cm} \approx \frac{\text{echo\_count}}{2915}
+$$
+
+For simpler hardware implementation, this is often approximated as:
+
+$$
+\text{distance}_{cm} = \frac{\text{echo\_count}}{2900}
+$$
 
 The FSM state transitions are as follows:
 
