@@ -88,6 +88,7 @@ reg[2:0]  state, state_next;
 
 ```
 A conversion guide for getting the distances would be as per the following formulae:
+
 $$
 d = \frac{v \cdot t}{2}
 $$
@@ -122,11 +123,7 @@ $$
 t = \frac{N}{50 \times 10^6}
 $$
 
-where,
-
-$$
-\(N\) = number of clock cycles for which ECHO remains HIGH
-$$
+where, N = number of clock cycles for which ECHO remains HIGH
 
 Substituting this into the distance equation:
 
