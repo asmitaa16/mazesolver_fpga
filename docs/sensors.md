@@ -37,16 +37,15 @@ An encoder sends the controller a certain number of pulses during the time we ar
 
 But the method is very much dependent on accurately measuring the pulses. So, how does one ensure none of them are missed? We use what is called an interrupt- a method where the controller stops all its ongoing functions when an encoder pulse is received, runs a special function at that time (which is called an Interrupt Service Routine) which let's say increments a counter that stores the current pulse value. Perfect!
 
-Well, not really. The problem lies in understanding how a procedural block works in Verilog. Clock is an important parameter in a sequential logic circuit. The way outputs change depend on which clock configuration we choose to read the inputs and trigger changes in the output accordingly. The "always" block showm below does this at every positive edge or rising clock edge i.e. when the clock pulse changes from LOW to HIGH. Now, our interrupt signal is not synchronous with our clock. This is termed as clock-domain-crossing- when a signal is asynchronous with our clock and brings up a "meta-stable" state where the output is not a stable 1 or 0. If the pulse is received near about the time when the clock is changing as well, there's a fair chance we might not read it at all. 
+Well, not really. The problem lies in understanding how a procedural block works in Verilog. Clock is an important parameter in a sequential logic circuit. The way outputs change depend on which clock configuration we choose to read the inputs and trigger changes in the output accordingly. The "always" block showm below does this at every positive edge or rising clock edge i.e. when the clock pulse changes from LOW to HIGH. Now, our interrupt signal is not synchronous with our clock which in simple terms means that the arrival of the pulses doesn't know what condition my clock signal is in. If the pulse is received near about the time when the clock is changing as well, there's a fair chance we might not read it at all. This is termed as clock-domain-crossing- when a signal is asynchronous with our clock and brings up a "meta-stable" state where the output is not a stable 1 or 0 simply because there wasn't enough time for our outputs to properly settle according to the changing inputs.
 
 OK. Lot's of jargon. How do we tackle it then? That's much simpler- just hold on to the encoder pulse for one more clock pulse to make sure it is read by your controller. So, we store it in a flip-flop (1 bit register). That solves the problem of receiving the pulse.
 
-The next challenge is to actually implement an interrupt. How do we confirm a change has occured in the encoder reading and change our counter variable based on that? We need to use a 2nd flip-flop for that. The first flip-flop directly stores the data from the encoder while the 2nd one holds on to the previous value read from the encoder. In this way we can detect a change in readings and be sure that a pulse had indeed been generated. 
+The next challenge is to actually implement an interrupt. How do we confirm a change has occured in the encoder reading and modify our counter variable based on that? We need to use a 2nd flip-flop for that. The first flip-flop directly stores the data from the encoder while the 2nd one holds on to the previous value read from the encoder. In this way we can detect a change in readings and make sure that a pulse had indeed been generated. 
 
-The example below does it by detecting falling edges in the encoder pulse. Play around with it and try writing conditions for detecting rising edges or keeping track of both rising or falling edges (think about Arduino attachInterrupt function)
+The example below does it by detecting falling edges in the encoder pulse. Play around with it and try writing conditions for detecting rising edges or keeping track of both rising or falling edges (think about Arduino attachInterrupt() function)
 
 ```verilog
-
 always @(posedge clk_50)begin
         ff1 <= m1_encoder_a;
         ff2 <= ff1;
@@ -65,7 +64,7 @@ The diagram shows a typical synchronisation circuitry.
 *Image credit: https://daffy1108.wordpress.com/2014/06/08/synchronizers-for-asynchronous-signals/*
 
 
-A synthesised module reading data from both wheel encoders and gives the encoder ticks as output for use by other modules.
+This synthesised module reads data input from both wheel encoders and gives the encoder ticks as output for use by other modules.
 ![PWM Generator Module](assets/images/encoder.png)
 
 
@@ -83,7 +82,6 @@ It consists of multiple states that perform discrete actions one after another i
 In the following snippet we initialise the variables for our module.Note that we keep a buffer time of 25mS to wait for the echo pulse to arrive and start calculating the distance. The module takes clock signal input, a start input to enable the module and start its functioning, a trigger output mapped to the TRIG pin of the sensor and an input echo mapped to the ECHO pin of the sensor. The measurement would be noisy and you may apply a low-pass-filter to get more accurate results.
 
 ```verilog
-
 parameter 	clk_mhz = 50,					
             trig_ms = 10,  	
             timeout_ms = 25;
@@ -93,7 +91,6 @@ localparam  count_timeout = clk_mhz * timeout_ms * 1000;
 
 reg [20:0] counter;
 reg[2:0]  state, state_next;
-
 ```
 A conversion guide for getting the distances would be as per the following formulae:
 
@@ -148,7 +145,6 @@ $$
 The FSM state transitions are as follows:
 
 ```verilog
-
 always @(*) begin
     state_next <= state; 
     echo_prev = echo;
@@ -191,7 +187,7 @@ always @(*) begin
     endcase
     
 end
-
 ```
+
 It took us quite sometime to get the ultrasonic sensor data right because of the timing intricacies. We hope the snippets have given you a better idea on how the sensor works and how to read the distance from it. Have fun!
 
