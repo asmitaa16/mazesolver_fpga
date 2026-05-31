@@ -119,26 +119,26 @@ $$
 For FPGA implementation using a 50 MHz clock:
 
 $$
-t = \frac{\mathrm{echo\_count}}{50 \times 10^6}
+t = \frac{\mathtt{echo\_count}}{50 \times 10^6}
 $$
 
 
 Substituting this into the distance equation:
 
 $$
-d = \frac{343 \cdot \mathrm{echo\_count}}{2 \cdot 50 \times 10^6}
+d = \frac{343 \cdot \mathtt{echo\_count}}{2 \cdot 50 \times 10^6}
 $$
 
 Approximating in centimeters:
 
 $$
-d_{cm} \approx \frac{\mathrm{echo\_count}}{2915}
+d_{cm} \approx \frac{\mathtt{echo\_count}}{2915}
 $$
 
 For simpler hardware implementation, this is often approximated as:
 
 $$
-\mathrm{distance}_{cm} = \frac{\mathrm{echo\_count}}{2900}
+\mathrm{distance}_{cm} = \frac{\mathtt{echo\_count}}{2900}
 $$
 
 The FSM state transitions are as follows:
