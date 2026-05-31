@@ -32,5 +32,5 @@ custom_css: assets/css/custom.css
 url: https://asmitaa16.github.io
 baseurl: /mazesolver_fpga
 
-footer_content: "Maintained by <a href='https://github.com/asmitaa16'>asmitaa16</a>"
+footer_content: "Maintained by <a href='https://github.com/asmitaa16'>asmitaa16</a> & <a href='https://github.com/SiriusB07'>SiriusB07</a>. Hosted on GitHub Pages."
 
