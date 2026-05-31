@@ -15,15 +15,15 @@ Read through the pages for a detailed and fun guide to model maze-solving algori
 ### Image Gallery :
 
 
-![BOT1](assets/images/bot3.png)
+![BOT1](docs/assets/images/bot3.png)
 
 *The initial build- we used laser cut acrylic sheets for the body*
 
-![BOT2](assets/images/bot2.png)
+![BOT2](docs/assets/images/bot2.png)
 
 *The sensors and the e-yantra provided PCB mounted- The bot's ready for a run here!*
 
-![Maze](assets/images/maze.png)
+![Maze](docs/assets/images/maze.png)
 
 *Us with the Maze- the walls have been made by sunboard sheets pasted on the maze's plan*
 
