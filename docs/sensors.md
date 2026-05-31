@@ -63,7 +63,7 @@ A synthesised module reading data from both wheel encoders and gives the encoder
 
 ### Ultrasonic Sensors:
 
-The first step here is to have a look at the datasheet, specially at the timing diagram and see exactly how it is supposed to work. 
+We are using the HC-SR04 sensor module. The first step here is to have a look at the datasheet, specially at the timing diagram and see exactly how it is supposed to work. 
 
 ![Ultrasonic Module](assets/images/ultra.png)
 
@@ -71,3 +71,67 @@ The first step here is to have a look at the datasheet, specially at the timing 
 
 What we see is that it requires a short 10-uS trigger pulse to start the ranging. Then the module sends an 8-cycle burst of ultrasonic pulses at 40KHz and keeps waiting for the echo to arrive. We are going to achieve this operation by implementing what is called a Finite State Machine. 
 It consists of multiple states that perform discrete actions one after another in an orderly manner. Each state has its own function and a logical conditioning for transitioning to a next-state. 
+
+In the following snippet we initialise the variables for our module.Note that we keep a buffer time of 25mS to wait for the echo pulse to arrive and start calculating the distance. The module takes clock signal input, a start input to enable the module and start its functioning, a trigger output mapped to the TRIG pin of the sensor and an input echo mapped to the ECHO pin of the sensor. We output the raw distance data here i.e. it has not been converted to a metric unit. The measurement might be a bit noisy and you may apply a low-pass-filter to get more accurate results.
+
+```verilog
+
+parameter 	clk_mhz = 50,					
+            trig_ms = 10,  	
+            timeout_ms = 25;
+
+localparam	count_trig_pulse = clk_mhz * trig_ms;
+localparam  count_timeout = clk_mhz * timeout_ms * 1000;
+
+reg [20:0] counter;
+reg[2:0]  state, state_next;
+
+```
+A conversion guide for getting the distances would be as per the following formulae:
+Considering, speed of sound = 343 m/s or 34300 cm/s
+Then, d_{cm} = \frac{34300*t}{58}
+It'd be easier to keep track of time in milli-seconds since we are dealing with clocks of frequencies of high orders.
+So, we have- d_{cm} = \frac{t_{\mu s}}{58}
+
+Now for calculating the time, again initialise a counter that counts up till till the echo pulse is HIGH.
+We then have, t = \frac{\text{echo\_count}}{50 \times 10^6}
+d = \frac{343 \cdot \text{echo\_count}}{2 \cdot 50 \times 10^6}
+or, d_{cm} \approx \frac{\text{echo\_count}}{2915}
+
+
+The FSM state transitions are as follows:
+
+```verilog
+
+always @(*) begin
+    state_next <= state; 
+
+    case (state)
+        IDLE: begin 
+            if (start) state_next <= TRIG;
+        end
+        
+        TRIG: begin 
+            if (counter >= count_trig_pulse) state_next <= WAIT_ECHO_UP;
+        end
+        
+        WAIT_ECHO_UP: begin
+            if (echo) state_next <= MEASUREMENT;
+        end
+        
+        MEASUREMENT: begin
+            if (counter_timeout || (~echo)) state_next <= MEASURE_OK;
+        end
+        
+        MEASURE_OK: begin
+            state_next <= IDLE;			
+        end
+
+        default: begin
+            state_next <= IDLE;
+        end	
+    endcase
+    
+end
+
+```
