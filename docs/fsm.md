@@ -50,9 +50,11 @@ if (counter == 400)  //we use a pwm frequency of 125 KHz
 end
 ```
 
-Let us now look at building up the the main Finite State Machine block that is responsible for the main decision making. Look at the following flowchart for understanding the decision-making rules. Just lemme give a little brief-up first: The first thing to look at is the sensor data telling us where the walls are. So we have a 3 input values to our module in the order left-mid-right. A value of "000" means we have successfully exited the maze and a value of "111" means we have hit a dead-end. Anything in between these values would require us to make decisions and take turns accordingly. The choice-making is simplest when the path is blocked on both sides and as per the plan we take left turns while the path to left and right/mid is open too. To keep track of the movements we also maintain a 2-bit variable that contains which side our bot is facing, mapped as "00" to North and rotates anticlockwise for the other directions.
+Let us now look at building up the the main Finite State Machine block that is responsible for the main decision making. Look at the following flowchart for understanding the decision-making rules. Just lemme give a little brief-up first: The first thing to look at is the sensor data telling us where the walls are. So we have a 3 input values to our module in the order left-mid-right. A value of "000" means we have successfully exited the maze and a value of "111" means we have hit a dead-end. Anything in between these values would require us to make decisions and take turns accordingly. The choice-making is simplest when the path is blocked on both sides and as per the plan, when there's two open paths, we take left turns wherever possible or keep moving forward otherwise. To keep track of the movements we also maintain a 2-bit variable that contains which side our bot is facing, mapped as "00" to North and rotates anticlockwise for the other directions.
 
 A little hack here is to move the bot block-by-block since that worked best for us! You may play around with other possible approaches, for e.g. moving the bot as long as a wall is encountered. 
+
+![PWM Generator Module](assets/images/flow2.png)
 
 
 How do we make the turns? The wheels must rotate in different speeds to make the rotation possible. As for how to know when the turn has been completed, we count the encoder pulses till the start-to-end of the turn. You can obtain quite perfect 90 degree turns with some trial and error.
@@ -74,15 +76,12 @@ always @(posedge clk)begin
     
 end
 ```
-<!-- 
-```verilog
-```
 
-```verilog
-```
 
-```verilog
-``` -->
+If you've read this far, THANK YOU! Our target was not to provide a ready-made Quartus Project File, but the idea behind building one from scratch, bit by bit. Hope you have gained more confidence in starting out with the real hardware now that you have read through the possible challenges.
 
+We truly wish you all the best for trying out your own Maze-solver robot using a FPGA.
+
+*Happy Debugging!*
 
 
