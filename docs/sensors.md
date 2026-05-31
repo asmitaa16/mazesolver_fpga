@@ -72,7 +72,7 @@ We are using the HC-SR04 sensor module. The first step here is to have a look at
 What we see is that it requires a short 10-uS trigger pulse to start the ranging. Then the module sends an 8-cycle burst of ultrasonic pulses at 40KHz and keeps waiting for the echo to arrive. We are going to achieve this operation by implementing what is called a Finite State Machine. 
 It consists of multiple states that perform discrete actions one after another in an orderly manner. Each state has its own function and a logical conditioning for transitioning to a next-state. 
 
-In the following snippet we initialise the variables for our module.Note that we keep a buffer time of 25mS to wait for the echo pulse to arrive and start calculating the distance. The module takes clock signal input, a start input to enable the module and start its functioning, a trigger output mapped to the TRIG pin of the sensor and an input echo mapped to the ECHO pin of the sensor. We output the raw distance data here i.e. it has not been converted to a metric unit. The measurement might be a bit noisy and you may apply a low-pass-filter to get more accurate results.
+In the following snippet we initialise the variables for our module.Note that we keep a buffer time of 25mS to wait for the echo pulse to arrive and start calculating the distance. The module takes clock signal input, a start input to enable the module and start its functioning, a trigger output mapped to the TRIG pin of the sensor and an input echo mapped to the ECHO pin of the sensor. The measurement would be noisy and you may apply a low-pass-filter to get more accurate results.
 
 ```verilog
 
@@ -111,31 +111,37 @@ d_{cm} = \frac{34300 \cdot t}{2}
 $$
 
 For practical implementation, time is usually measured in microseconds:
+
 $$
 d_{cm} = \frac{t_{\mu s}}{58}
 $$
 
 For implementation using a 50 MHz clock:
+
 $$
 t = \frac{N}{50 \times 10^6}
 $$
 
 where,
+
 $$
 \(N\) = number of clock cycles for which ECHO remains HIGH
 $$
 
 Substituting this into the distance equation:
+
 $$
 d = \frac{343 \cdot N}{2 \cdot 50 \times 10^6}
 $$
 
 Approximating in centimeters:
+
 $$
 d_{cm} \approx \frac{N}{2915}
 $$
 
 For simpler hardware implementation, this is often approximated as:
+
 $$
 \mathrm{distance}_{cm} = \frac{\mathtt{echo\_count}}{2900}
 $$
@@ -146,6 +152,7 @@ The FSM state transitions are as follows:
 
 always @(*) begin
     state_next <= state; 
+    echo_prev = echo;
 
     case (state)
         IDLE: begin 
@@ -161,7 +168,18 @@ always @(*) begin
         end
         
         MEASUREMENT: begin
-            if (counter_timeout || (~echo)) state_next <= MEASURE_OK;
+            if (echo) begin
+                    echo_counter <= echo_counter + 1;
+                    end
+            else if (!echo && echo_prev) begin
+                    distance_out <= echo_counter/ 2915;
+
+                    if ((echo_counter * 34) / 10000  <= dist_threshold)
+                        op <= 1;
+                    else
+                        op <= 0;
+                    state <= WAIT;
+                end   
         end
         
         MEASURE_OK: begin
@@ -176,3 +194,5 @@ always @(*) begin
 end
 
 ```
+It took us quite sometime to get the ultrasonic sensor data right because of the timing intricacies. We hope the snippets have given you a better idea on how the sensor works and how to read the distance from it. Have fun!
+
