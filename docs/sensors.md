@@ -111,32 +111,31 @@ d_{cm} = \frac{34300 \cdot t}{2}
 $$
 
 For practical implementation, time is usually measured in microseconds:
-
 $$
 d_{cm} = \frac{t_{\mu s}}{58}
 $$
 
-For FPGA implementation using a 50 MHz clock:
-
+For implementation using a 50 MHz clock:
 $$
-t = \frac{\mathtt{echo\_count}}{50 \times 10^6}
+t = \frac{N}{50 \times 10^6}
 $$
 
+where,
+$$
+\(N\) = number of clock cycles for which ECHO remains HIGH
+$$
 
 Substituting this into the distance equation:
-
 $$
-d = \frac{343 \cdot \mathtt{echo\_count}}{2 \cdot 50 \times 10^6}
+d = \frac{343 \cdot N}{2 \cdot 50 \times 10^6}
 $$
 
 Approximating in centimeters:
-
 $$
-d_{cm} \approx \frac{\mathtt{echo\_count}}{2915}
+d_{cm} \approx \frac{N}{2915}
 $$
 
 For simpler hardware implementation, this is often approximated as:
-
 $$
 \mathrm{distance}_{cm} = \frac{\mathtt{echo\_count}}{2900}
 $$
