@@ -29,7 +29,7 @@ There are so many more possibilities. Try implementing other maze-solving algori
 
 - Now if you're not much familiar with hardware yet, jumping on to an FPGA would be an insane learning curve! So, instead get yourself acquainted with simple microcontrollers like Arduino. [This website](https://dronebotworkshop.com/arduino-microcontroller/) provides great tutorials and is my personal favourite.
 
-- Concepts of [interrupts](https://dronebotworkshop.com/interrupts/) and [closed-loop motor control](https://dronebotworkshop.com/rotary-encoders-arduino/) , implement in Arduino environments.
+- Concepts of [interrupts](https://dronebotworkshop.com/interrupts/) and [closed-loop motor control](https://dronebotworkshop.com/rotary-encoders-arduino/) , implemented in Arduino environments.
 
 
 
