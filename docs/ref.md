@@ -31,5 +31,7 @@ There are so many more possibilities. Try implementing other maze-solving algori
 
 - Concepts of [interrupts](https://dronebotworkshop.com/interrupts/) and [closed-loop motor control](https://dronebotworkshop.com/rotary-encoders-arduino/) , implemented in Arduino environments.
 
+- Try using the signal tap logic analyser from within the quartus software to read the data from your sensors in real-time. Program the bot using a SOF file and configure the analyser with the clock and the signals you want to view. Note that an sof file gets deleted everytime you remove the programmer cable. To run the bot for trial, powered by batter you have to use JIC files for programming. 
+
 
 
